@@ -48,7 +48,7 @@ export default {
   max-width: 400px;
   border-radius: 2px;
   background-color: $background-light;
-  padding: 30px;
+  padding: 10px 30px 50px;
 }
 
 .form {

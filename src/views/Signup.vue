@@ -16,5 +16,9 @@ export default {
 .root {
   width: 100vw;
   height: 100vh;
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 </style>
