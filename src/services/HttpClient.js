@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ACCESS_TOKEN_KEY = 'AUTH_TOKEN';
+export const ACCESS_TOKEN_KEY = 'AUTH_TOKEN';
 
 class HttpClient {
   client = null;
@@ -9,10 +9,15 @@ class HttpClient {
 
   constructor(baseURL) {
     this.client = axios.create({ baseURL });
+    this.accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
 
     this.client.interceptors.request.use((config) => {
-      console.log('Request config: ', config);
-      return config;
+      if (!config.requireAuth) return config;
+
+      const configCopy = { ...config };
+      configCopy.headers.Authorization = `Bearer ${this.accessToken}`;
+
+      return configCopy;
     });
   }
 

@@ -3,21 +3,42 @@ import { userService } from '@/services';
 export default {
   state: {
     isAuthenticated: false,
+    authStateChecked: false,
     details: null,
   },
 
   mutations: {
-    markAsAuthenticated(state) {
+    markAuthStateAsChecked(state) {
+      state.authStateChecked = true;
+    },
+
+    setUserData(state, payload) {
+      state.details = payload;
       state.isAuthenticated = true;
+      state.authStateChecked = true;
     },
   },
 
   actions: {
+    async checkUser(context) {
+      try {
+        const userData = await userService.getUser();
+        context.commit('setUserData', userData);
+      } catch {
+        context.commit('markAuthStateAsChecked');
+      }
+    },
+
     async signIn(context, payload) {
       const { name, password } = payload;
 
-      const result = await userService.signIn(name, password);
-      context.commit('markAsAuthenticated', result);
+      try {
+        await userService.signIn(name, password);
+        const userData = await userService.getUser();
+        context.commit('setUserData', userData);
+      } catch {
+        context.commit('markAuthStateAsChecked');
+      }
     },
   },
 };
