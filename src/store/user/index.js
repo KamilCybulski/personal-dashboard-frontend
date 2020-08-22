@@ -10,6 +10,10 @@ export default {
     markAsAuthenticated(state) {
       state.isAuthenticated = true;
     },
+
+    setUserData(state, payload) {
+      state.details = payload;
+    },
   },
 
   actions: {

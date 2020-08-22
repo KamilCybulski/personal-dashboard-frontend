@@ -11,8 +11,12 @@ class HttpClient {
     this.client = axios.create({ baseURL });
 
     this.client.interceptors.request.use((config) => {
-      console.log('Request config: ', config);
-      return config;
+      if (!config.requireAuth) return config;
+
+      const configCopy = { ...config };
+      configCopy.headers.Authorization = `Bearer ${this.accessToken}`;
+
+      return configCopy;
     });
   }
 
