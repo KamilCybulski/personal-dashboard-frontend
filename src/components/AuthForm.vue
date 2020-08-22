@@ -3,7 +3,7 @@
     <h1>{{ title }}</h1>
     <form :class="$style.form" @submit.prevent="handleSubmit">
       <div :class="$style.inputWrapper">
-        <ui-textbox floatingLabel label="e-mail" v-model="email" type="text" />
+        <ui-textbox floatingLabel label="name" v-model="name" type="text" />
       </div>
       <div :class="$style.inputWrapper">
         <ui-textbox floatingLabel label="password" v-model="password" type="password" />
@@ -25,18 +25,22 @@ export default {
       required: true,
       validator: oneOf(['signup', 'signin']),
     },
+    onSubmit: {
+      type: Function,
+      required: true,
+    },
   },
   data() {
     return {
       title: this.type === 'signup' ? 'Sign up' : 'Sign in',
-      email: '',
+      name: '',
       password: '',
     };
   },
 
   methods: {
     handleSubmit() {
-      console.log({ email: this.email, password: this.password });
+      this.onSubmit(this.name, this.password);
     },
   },
 };
@@ -52,7 +56,7 @@ export default {
 }
 
 .form {
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 .inputWrapper {

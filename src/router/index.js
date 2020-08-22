@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-const ROUTE_NAMES = {
+export const ROUTE_NAMES = {
   main: 'Main',
   login: 'Login',
   signup: 'Signup',

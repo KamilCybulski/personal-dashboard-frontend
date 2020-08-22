@@ -1,14 +1,23 @@
 <template>
   <div :class="$style.root">
-    <AuthForm type='signin' />
+    <AuthForm type="signin" :onSubmit="handleSubmit" />
   </div>
 </template>
 
 <script>
 import AuthForm from '@/components/AuthForm.vue';
+import { userService } from '@/services';
+import { ROUTE_NAMES } from '@/router';
 
 export default {
   components: { AuthForm },
+  methods: {
+    async handleSubmit(name, password) {
+      console.log({ name, password });
+      await userService.signUp(name, password);
+      this.$router.push({ name: ROUTE_NAMES.login });
+    },
+  },
 };
 </script>
 
