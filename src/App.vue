@@ -1,14 +1,16 @@
 <template>
   <div id="app">
     <router-view v-if="initialized" />
-    <div v-else>LOADING</div>
+    <FullScreenLoader v-else />
   </div>
 </template>
 
 <script>
+import FullScreenLoader from '@/components/FullScreenLoader.vue';
 import { ACCESS_TOKEN_KEY } from '@/services';
 
 export default {
+  components: { FullScreenLoader },
   data() {
     return {
       initialized: false,
