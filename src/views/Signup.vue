@@ -13,7 +13,6 @@ export default {
   components: { AuthForm },
   methods: {
     async handleSubmit(name, password) {
-      console.log({ name, password });
       await userService.signUp(name, password);
       this.$router.push({ name: ROUTE_NAMES.signin });
     },

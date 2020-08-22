@@ -6,12 +6,14 @@
 
 <script>
 import AuthForm from '@/components/AuthForm.vue';
+import { ROUTE_NAMES } from '@/router';
 
 export default {
   components: { AuthForm },
   methods: {
-    handleSubmit(name, password) {
-      console.log({ name, password });
+    async handleSubmit(name, password) {
+      await this.$store.dispatch('signIn', { name, password });
+      this.$router.push({ name: ROUTE_NAMES.main });
     },
   },
 };

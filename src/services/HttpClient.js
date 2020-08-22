@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const ACCESS_TOKEN_KEY = 'AUTH_TOKEN';
+
 class HttpClient {
   client = null;
 
@@ -24,6 +26,7 @@ class HttpClient {
 
   setAccessToken = (token) => {
     this.accessToken = token;
+    localStorage.setItem(ACCESS_TOKEN_KEY, token);
   }
 }
 

@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 
 export const ROUTE_NAMES = {
   main: 'Main',
-  siginin: 'Signin',
+  signin: 'Signin',
   signup: 'Signup',
 };
 
