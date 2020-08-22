@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <h1>This is signup template</h1>
-    <AuthForm />
+  <div :class="$style.root">
+    <AuthForm type='signin' />
   </div>
 </template>
 
@@ -12,3 +11,10 @@ export default {
   components: { AuthForm },
 };
 </script>
+
+<style lang="scss" module>
+.root {
+  width: 100vw;
+  height: 100vh;
+}
+</style>

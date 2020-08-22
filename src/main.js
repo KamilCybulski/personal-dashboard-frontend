@@ -5,6 +5,8 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
+import 'normalize.css';
+
 Vue.use(KeenUI);
 
 Vue.config.productionTip = false;
