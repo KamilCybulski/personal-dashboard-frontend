@@ -10,7 +10,10 @@ class UserService {
     this.httpClient.setAccessToken(data.accessToken);
   }
 
-  getUser = () => this.httpClient.get('/user/me', { requireAuth: true });
+  getUser = async () => {
+    const { data } = await this.httpClient.get('/user/me', { requireAuth: true });
+    return data;
+  };
 }
 
 export default UserService;
