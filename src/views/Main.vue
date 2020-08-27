@@ -1,3 +1,22 @@
 <template>
-  <div>This is main dashboard template</div>
+  <main :class="$style.main">
+    <Navigation />
+    <router-view />
+  </main>
 </template>
+
+<script>
+import Navigation from '@/components/Navigation.vue';
+
+export default {
+  components: { Navigation },
+};
+</script>
+
+<style lang="scss" module>
+.main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+</style>

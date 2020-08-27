@@ -10,11 +10,10 @@ export const ROUTE_NAMES = {
   main: 'Main',
   signin: 'Signin',
   signup: 'Signup',
+  todos: 'Todos',
+  notes: 'Notes',
+  chat: 'Chat',
 };
-
-const AUTH_ROUTES = [
-  ROUTE_NAMES.main,
-];
 
 const routes = [
   {
@@ -25,6 +24,23 @@ const routes = [
     path: '/main',
     name: ROUTE_NAMES.main,
     component: () => import('@/views/Main.vue'),
+    children: [
+      {
+        path: '',
+        name: ROUTE_NAMES.todos,
+        component: () => import('@/views/Todos.vue'),
+      },
+      {
+        path: 'notes',
+        name: ROUTE_NAMES.notes,
+        component: () => import('@/views/Notes.vue'),
+      },
+      {
+        path: 'chat',
+        name: ROUTE_NAMES.chat,
+        component: () => import('@/views/Chat.vue'),
+      },
+    ],
   },
   {
     path: '/signin',
@@ -46,7 +62,7 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   const isTokenSaved = localStorage.getItem(ACCESS_TOKEN_KEY);
-  const requiresAuthentication = AUTH_ROUTES.includes(to.name);
+  const requiresAuthentication = ![ROUTE_NAMES.signup, ROUTE_NAMES.signin].includes(to.name);
 
   if (!store.state.user.authStateChecked && isTokenSaved) {
     await store.dispatch('checkUser').catch(() => null);
