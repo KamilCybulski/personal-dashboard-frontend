@@ -12,9 +12,9 @@ import NavigationItem from '@/components/NavigationItem.vue';
 import { ROUTE_NAMES } from '@/router';
 
 const routes = [
-  { label: 'To do', icon: 'done', to: { name: ROUTE_NAMES.main } },
-  { label: 'Notes', icon: 'subject', to: { name: ROUTE_NAMES.main } },
-  { label: 'Chat', icon: 'chat_bubble', to: { name: ROUTE_NAMES.main } },
+  { label: 'To do', icon: 'done', to: { name: ROUTE_NAMES.todos } },
+  { label: 'Notes', icon: 'subject', to: { name: ROUTE_NAMES.notes } },
+  { label: 'Chat', icon: 'chat_bubble', to: { name: ROUTE_NAMES.chat } },
 ];
 
 export default {

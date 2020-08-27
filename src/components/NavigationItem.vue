@@ -1,6 +1,6 @@
 <template>
   <li :class="$style.root">
-    <router-link :class="linkClasses" :to="to">
+    <router-link :class="$style.link" :to="to" :exact-active-class="$style.linkActive">
       <ui-icon :icon="icon" />
       <div :class="$style.text">{{ label }}</div>
     </router-link>
@@ -25,19 +25,6 @@ export default {
       required: false,
       default: () => ({ name: ROUTE_NAMES.main }),
     },
-    active: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      linkClasses: {
-        [this.$style.link]: true,
-        [this.$style.linkActive]: this.active,
-      },
-    };
   },
 };
 </script>

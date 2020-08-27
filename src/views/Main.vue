@@ -1,6 +1,7 @@
 <template>
   <main :class="$style.main">
     <Navigation />
+    <router-view />
   </main>
 </template>
 
