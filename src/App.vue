@@ -19,4 +19,9 @@ html {
   -moz-osx-font-smoothing: grayscale;
   background-color: $background-dark;
 }
+
+a {
+  color: $primary-text-color;
+  text-decoration: none;
+}
 </style>
