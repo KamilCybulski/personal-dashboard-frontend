@@ -9,15 +9,33 @@ export default {
 
   mutations: {
     setItems(state, payload) {
-      state.items = { ...state.items, ...payload };
+      const newItems = {};
+
+      if (Array.isArray(payload)) {
+        payload.forEach((item) => {
+          newItems[item.id] = item;
+        });
+      } else {
+        newItems[payload.id] = payload;
+      }
+
+      state.items = { ...state.items, ...newItems };
     },
   },
 
   actions: {
-    async getAllItems(context) {
+    async getAllTodos(context) {
       const todos = await todoService.fetchAllTodos();
       context.commit('setItems', todos);
       return todos;
+    },
+
+    async addTodo(context, payload) {
+      const { name, notes } = payload;
+
+      const addedTodo = await todoService.addTodo(name, notes);
+      context.commit('setItems', addedTodo);
+      return addedTodo;
     },
   },
 };

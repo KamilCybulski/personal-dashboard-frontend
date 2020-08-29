@@ -1,5 +1,5 @@
 <template>
-  <form :class="$style.root" @submit.prevent="createTodo">
+  <form :class="$style.root" @submit.prevent="addTodo">
     <h1>Create new item</h1>
     <div>
       <div :class="$style.inputWrapper">
@@ -14,6 +14,7 @@
       color="primary"
       buttonType="submit"
       size="large"
+      :loading="loading"
     >
       Save
     </Button>
@@ -29,11 +30,33 @@ export default {
     return {
       name: '',
       notes: '',
+      loading: false,
+      error: null,
     };
   },
   methods: {
-    createTodo() {
-      console.log(this.name, ' | ', this.notes);
+    resetForm() {
+      this.name = '';
+      this.notes = '';
+    },
+
+    async addTodo() {
+      this.loading = true;
+
+      try {
+        const payload = {
+          name: this.name,
+          notes: this.notes,
+        };
+
+        await this.$store.dispatch('todos/addTodo', payload);
+        this.name = '';
+        this.notes = '';
+      } catch (err) {
+        this.error = err;
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };

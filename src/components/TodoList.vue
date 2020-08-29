@@ -30,7 +30,7 @@ export default {
     this.loading = true;
 
     try {
-      await this.$store.dispatch('todos/getAllItems');
+      await this.$store.dispatch('todos/getAllTodos');
     } catch (err) {
       this.error = err;
     } finally {
