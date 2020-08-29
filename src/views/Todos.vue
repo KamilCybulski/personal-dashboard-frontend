@@ -3,15 +3,18 @@
     <div :class="$style.form">
       <TodoForm />
     </div>
-    <div :class="$style.list" />
+    <div :class="$style.list">
+      <TodoList />
+    </div>
   </div>
 </template>
 
 <script>
 import TodoForm from '@/components/TodoForm.vue';
+import TodoList from '@/components/TodoList.vue';
 
 export default {
-  components: { TodoForm },
+  components: { TodoForm, TodoList },
 };
 </script>
 
