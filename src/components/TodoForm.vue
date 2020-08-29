@@ -9,20 +9,22 @@
         <ui-textbox floatingLabel label="notes" v-model="notes" multiLine />
       </div>
     </div>
-    <ui-button
-      :class="$style.button"
+    <Button
+      fullWidth
       color="primary"
       buttonType="submit"
       size="large"
     >
       Save
-    </ui-button>
+    </Button>
   </form>
 </template>
 
 <script>
+import Button from '@/components/Button.vue';
 
 export default {
+  components: { Button },
   data() {
     return {
       name: '',
@@ -50,9 +52,5 @@ export default {
 
 .inputWrapper {
   margin-bottom: 35px;
-}
-
-.button {
-  width: 100%;
 }
 </style>
