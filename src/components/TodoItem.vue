@@ -11,7 +11,7 @@
         @click="updateStatus('done')"
         type="secondary"
         color="white"
-        :loading="loading"
+        :loading="statusLoading"
       />
       <ui-icon-button
         v-if="localStatus === 'done'"
@@ -19,11 +19,11 @@
         @click="updateStatus('inProgress')"
         type="secondary"
         color="white"
-        :loading="loading"
+        :loading="statusLoading"
       />
       <ui-icon-button
         icon="delete"
-        @click="markAsDeleted"
+        @click="deleteTodo"
         type="secondary"
         color="white"
       />
@@ -40,7 +40,7 @@ export default {
     name: String,
     notes: String,
     status: {
-      validator: oneOf(['done', 'deleted', 'inProgress']),
+      validator: oneOf(['done', 'inProgress']),
     },
     createdAt: String,
   },
@@ -48,7 +48,8 @@ export default {
   data() {
     return {
       localStatus: this.status,
-      loading: false,
+      statusLoading: false,
+      deleteLoading: false,
     };
   },
 
@@ -59,6 +60,7 @@ export default {
         [this.$style.itemDone]: this.localStatus === 'done',
       };
     },
+
     notesClasses() {
       return {
         [this.$style.itemNotes]: true,
@@ -68,12 +70,11 @@ export default {
   },
 
   methods: {
-    // TODO add some notification about error when status update fails
     async updateStatus(newStatus) {
       // Optimistic update
       const storedStatus = this.localStatus;
       this.localStatus = newStatus;
-      this.loading = true;
+      this.statusLoading = true;
 
       try {
         await this.$store.dispatch('todos/updateStatus', {
@@ -82,12 +83,22 @@ export default {
         });
       } catch {
         this.localStatus = storedStatus;
+        // TODO add some notification about error when status update fails
       } finally {
-        this.loading = false;
+        this.statusLoading = false;
       }
     },
-    markAsDeleted() {
-      console.log('Delete');
+
+    async deleteTodo() {
+      this.deleteLoading = true;
+
+      try {
+        await this.$store.dispatch('todos/deleteTodo', this.id);
+      } catch {
+        // TODO add notification
+      } finally {
+        this.deleteLoading = false;
+      }
     },
   },
 };

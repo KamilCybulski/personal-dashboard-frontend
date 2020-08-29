@@ -21,6 +21,13 @@ export default {
 
       state.items = { ...state.items, ...newItems };
     },
+
+    removeItem(state, payload) {
+      const updatedItems = { ...state.items };
+      delete updatedItems[payload];
+
+      state.items = updatedItems;
+    },
   },
 
   actions: {
@@ -44,6 +51,11 @@ export default {
       const updatedTodo = await todoService.updateStatus(id, status);
       context.commit('setItems', updatedTodo);
       return updatedTodo;
+    },
+
+    async deleteTodo(context, payload) {
+      await todoService.deleteTodo(payload);
+      context.commit('removeItem', payload);
     },
   },
 };

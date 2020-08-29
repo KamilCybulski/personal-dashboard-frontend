@@ -17,6 +17,8 @@ class TodoService {
     const { data } = await this.httpClient.patch(`/todo/${id}`, { status }, { requireAuth: true });
     return data;
   }
+
+  deleteTodo = (id) => this.httpClient.delete(`/todo/${id}`, { requireAuth: true });
 }
 
 export default TodoService;
