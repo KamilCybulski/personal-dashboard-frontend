@@ -37,5 +37,13 @@ export default {
       context.commit('setItems', addedTodo);
       return addedTodo;
     },
+
+    async updateStatus(context, payload) {
+      const { id, status } = payload;
+
+      const updatedTodo = await todoService.updateStatus(id, status);
+      context.commit('setItems', updatedTodo);
+      return updatedTodo;
+    },
   },
 };

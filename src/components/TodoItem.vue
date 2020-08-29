@@ -1,21 +1,25 @@
 <template>
   <li :class="$style.root">
     <div :class="$style.descriptionWrapper">
-      <h3 :class="$style.itemName">{{ name }}</h3>
-      <div :class="$style.itemNotes">{{ notes }}</div>
+      <h3 :class="nameClasses">{{ name }}</h3>
+      <div :class="notesClasses">{{ notes }}</div>
     </div>
     <div :class="$style.buttonsWrapper">
       <ui-icon-button
-        v-if="status === 'inProgress'"
+        v-if="localStatus === 'inProgress'"
         icon="done"
         @click="markAsDone"
         type="secondary"
         color="white"
+        :loading="loading"
       />
       <ui-icon-button
-        v-if="status === 'done'"
+        v-if="localStatus === 'done'"
         icon="undo"
         @click="markAsUndone"
+        type="secondary"
+        color="white"
+        :loading="loading"
       />
       <ui-icon-button
         icon="delete"
@@ -35,12 +39,52 @@ export default {
     id: Number,
     name: String,
     notes: String,
-    status: oneOf(['done', 'deleted', 'inProgress']),
+    status: {
+      validator: oneOf(['done', 'deleted', 'inProgress']),
+    },
     createdAt: String,
   },
+
+  data() {
+    return {
+      localStatus: this.status,
+      loading: false,
+    };
+  },
+
+  computed: {
+    nameClasses() {
+      return {
+        [this.$style.itemName]: true,
+        [this.$style.itemDone]: this.localStatus === 'done',
+      };
+    },
+    notesClasses() {
+      return {
+        [this.$style.itemNotes]: true,
+        [this.$style.itemDone]: this.localStatus === 'done',
+      };
+    },
+  },
+
   methods: {
-    markAsDone() {
-      console.log('Marked as done');
+    async markAsDone() {
+      // Optimistic update
+      const storedStatus = this.localStatus;
+      this.localStatus = 'done';
+      this.loading = true;
+
+      try {
+        await this.$store.dispatch('todos/updateStatus', {
+          id: this.id,
+          status: 'done',
+        });
+      } catch {
+        this.localStatus = storedStatus;
+        // TODO add some notification about error
+      } finally {
+        this.loading = false;
+      }
     },
     markAsUndone() {
       console.log('Marked as undone');
@@ -78,4 +122,9 @@ export default {
 .itemNotes {
   font-size: 12px;
 }
+
+.itemDone {
+  text-decoration: line-through;
+}
+
 </style>
