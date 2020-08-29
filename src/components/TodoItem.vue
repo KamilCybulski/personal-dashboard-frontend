@@ -8,7 +8,7 @@
       <ui-icon-button
         v-if="localStatus === 'inProgress'"
         icon="done"
-        @click="markAsDone"
+        @click="updateStatus('done')"
         type="secondary"
         color="white"
         :loading="loading"
@@ -16,7 +16,7 @@
       <ui-icon-button
         v-if="localStatus === 'done'"
         icon="undo"
-        @click="markAsUndone"
+        @click="updateStatus('inProgress')"
         type="secondary"
         color="white"
         :loading="loading"
@@ -68,26 +68,23 @@ export default {
   },
 
   methods: {
-    async markAsDone() {
+    // TODO add some notification about error when status update fails
+    async updateStatus(newStatus) {
       // Optimistic update
       const storedStatus = this.localStatus;
-      this.localStatus = 'done';
+      this.localStatus = newStatus;
       this.loading = true;
 
       try {
         await this.$store.dispatch('todos/updateStatus', {
           id: this.id,
-          status: 'done',
+          status: newStatus,
         });
       } catch {
         this.localStatus = storedStatus;
-        // TODO add some notification about error
       } finally {
         this.loading = false;
       }
-    },
-    markAsUndone() {
-      console.log('Marked as undone');
     },
     markAsDeleted() {
       console.log('Delete');
