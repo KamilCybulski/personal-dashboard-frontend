@@ -6,7 +6,7 @@
         <ui-textbox floatingLabel label="name" v-model="name" type="text" />
       </div>
       <div :class="$style.inputWrapper">
-        <ui-textbox floatingLabel label="notes" v-model="notes" multiLine />
+        <ui-textbox floatingLabel label="notes" v-model="notes" type="text" />
       </div>
     </div>
     <Button
