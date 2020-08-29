@@ -9,16 +9,18 @@
         <ui-textbox floatingLabel label="password" v-model="password" type="password" />
       </div>
       <div :class="$style.buttonWrapper">
-        <ui-button color="primary" buttonType="submit" size="large">{{ title }}</ui-button>
+        <Button color="primary" buttonType="submit" size="large">{{ title }}</Button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import Button from '@/components/Button.vue';
 import { oneOf } from '@/helpers/props-validators';
 
 export default {
+  components: { Button },
   props: {
     type: {
       type: String,
@@ -68,9 +70,5 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 70px;
-
-  button {
-    width: 100%;
-  }
 }
 </style>

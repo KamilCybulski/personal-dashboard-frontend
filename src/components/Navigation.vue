@@ -27,7 +27,7 @@ export default {
 
 <style lang="scss" module>
 .root {
-  width: 340px;
+  width: 270px;
   height: 100%;
   background-color: $background-light;
   padding: 24px 0 24px;
