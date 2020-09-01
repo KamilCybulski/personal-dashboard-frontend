@@ -5,7 +5,9 @@
         v-model="todos"
         @change="handleChange"
       >
-        <TodoItem v-for="todo in todos" :key="todo.id" v-bind="todo" />
+        <transition-group type="transition" name="flip-list">
+          <TodoItem v-for="todo in todos" :key="todo.id" v-bind="todo" />
+        </transition-group>
       </Draggable>
     </ul>
   </div>
@@ -73,6 +75,10 @@ export default {
 .list {
   list-style: none;
   padding: 0;
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
 }
 
 </style>
