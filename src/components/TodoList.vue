@@ -22,7 +22,7 @@ export default {
 
   computed: {
     ...mapState({
-      todos: (state) => Object.values(state.todos.items).filter((item) => item.status !== 'deleted'),
+      todos: (state) => Object.values(state.todos.items).sort((a, b) => a.position - b.position),
     }),
   },
 
