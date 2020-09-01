@@ -1,15 +1,19 @@
 <template>
   <div :class="$style.root">
-    <ul :class="$style.list">
       <Draggable
         v-model="todos"
         @change="handleChange"
+        @start="drag = true"
+        @end="drag = false"
+        :ghostClass="$style.ghost"
+        :animation="200"
+        tag="ul"
+        :class="$style.list"
       >
-        <transition-group type="transition" name="flip-list">
+        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
           <TodoItem v-for="todo in todos" :key="todo.id" v-bind="todo" />
         </transition-group>
       </Draggable>
-    </ul>
   </div>
 </template>
 
@@ -24,6 +28,7 @@ export default {
     return {
       loading: false,
       error: null,
+      drag: false,
     };
   },
 
@@ -75,10 +80,20 @@ export default {
 .list {
   list-style: none;
   padding: 0;
+  min-height: 20px;
 }
 
-.flip-list-move {
+:global(.flip-list-move) {
   transition: transform 0.5s;
+}
+
+:global(.no-move) {
+  transition: transform 0s;
+}
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 
 </style>

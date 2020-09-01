@@ -109,7 +109,6 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 16px 24px;
-  transition: all 0.5s linear;
 }
 
 .descriptionWrapper {
