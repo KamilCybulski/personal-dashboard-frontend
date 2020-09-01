@@ -14,7 +14,16 @@ class TodoService {
   }
 
   updateStatus = async (id, status) => {
-    const { data } = await this.httpClient.patch(`/todo/${id}`, { status }, { requireAuth: true });
+    const { data } = await this.httpClient.patch(`/todo/status/${id}`, { status }, { requireAuth: true });
+    return data;
+  }
+
+  updatePosition = async (id, newPosition) => {
+    const { data } = await this.httpClient.patch(
+      `/todo/position/${id}`,
+      { newPosition },
+      { requireAuth: true },
+    );
     return data;
   }
 

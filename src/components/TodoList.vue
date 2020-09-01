@@ -1,18 +1,23 @@
 <template>
   <div :class="$style.root">
     <ul :class="$style.list">
-      <TodoItem v-for="todo in todos" :key="todo.id" v-bind="todo" />
+      <Draggable
+        v-model="todos"
+        @change="handleChange"
+      >
+        <TodoItem v-for="todo in todos" :key="todo.id" v-bind="todo" />
+      </Draggable>
     </ul>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import Draggable from 'vuedraggable';
 
 import TodoItem from '@/components/TodoItem.vue';
 
 export default {
-  components: { TodoItem },
+  components: { TodoItem, Draggable },
   data() {
     return {
       loading: false,
@@ -20,10 +25,29 @@ export default {
     };
   },
 
+  methods: {
+    handleChange(evt) {
+      const { element, newIndex } = evt.moved;
+      const payload = {
+        id: element.id,
+        newPosition: newIndex,
+      };
+
+      this.$store.dispatch('todos/updatePosition', payload);
+    },
+  },
+
   computed: {
-    ...mapState({
-      todos: (state) => Object.values(state.todos.items).sort((a, b) => a.position - b.position),
-    }),
+    todos: {
+      get() {
+        return Object
+          .values(this.$store.state.todos.items)
+          .sort((a, b) => a.position - b.position);
+      },
+      set() {
+        // noop
+      },
+    },
   },
 
   async created() {

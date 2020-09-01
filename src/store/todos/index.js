@@ -53,6 +53,14 @@ export default {
       return updatedTodo;
     },
 
+    async updatePosition(context, payload) {
+      const { id, newPosition } = payload;
+
+      const allTodos = await todoService.updatePosition(id, newPosition);
+      context.commit('setItems', allTodos);
+      return allTodos;
+    },
+
     async deleteTodo(context, payload) {
       await todoService.deleteTodo(payload);
       context.commit('removeItem', payload);
