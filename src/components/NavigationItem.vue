@@ -23,7 +23,7 @@ export default {
     to: {
       type: [String, Object],
       required: false,
-      default: () => ({ name: ROUTE_NAMES.main }),
+      default: () => ({ name: ROUTE_NAMES.todos }),
     },
   },
 };

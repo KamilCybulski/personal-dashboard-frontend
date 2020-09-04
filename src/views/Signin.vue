@@ -13,7 +13,7 @@ export default {
   methods: {
     async handleSubmit(name, password) {
       await this.$store.dispatch('signIn', { name, password });
-      this.$router.push({ name: ROUTE_NAMES.main });
+      this.$router.push({ name: ROUTE_NAMES.todos });
     },
   },
 };
