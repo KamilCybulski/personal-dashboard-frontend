@@ -10,7 +10,7 @@
         tag="ul"
         :class="$style.list"
       >
-        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+        <transition-group type="transition" :name="drag ? 'flip-list' : null">
           <TodoItem v-for="todo in todos" :key="todo.id" v-bind="todo" />
         </transition-group>
       </Draggable>
@@ -29,18 +29,25 @@ export default {
       loading: false,
       error: null,
       drag: false,
+      storedFallbackTodos: [],
     };
   },
 
   methods: {
-    handleChange(evt) {
+    async handleChange(evt) {
       const { element, newIndex } = evt.moved;
       const payload = {
         id: element.id,
         newPosition: newIndex,
       };
 
-      this.$store.dispatch('todos/updatePosition', payload);
+      try {
+        await this.$store.dispatch('todos/updatePosition', payload);
+      } catch (err) {
+        this.$store.commit('todos/setAllItemsPositions', this.storedFallbackTodos);
+      } finally {
+        this.storedFallbackTodos = [];
+      }
     },
   },
 
@@ -51,8 +58,14 @@ export default {
           .values(this.$store.state.todos.items)
           .sort((a, b) => a.position - b.position);
       },
-      set() {
-        // noop
+      set(items) {
+        // Store current order of todos. It will be later used to restore todos
+        // to previous shape if backend returns any kind of error on todo position update
+        this.storedFallbackTodos = this.todos;
+
+        // Optimistic update. Vuex store is synced afterwards
+        // with server state via handleChange method
+        this.$store.commit('todos/setAllItemsPositions', items);
       },
     },
   },

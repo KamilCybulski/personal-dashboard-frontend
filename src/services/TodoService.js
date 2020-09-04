@@ -1,3 +1,5 @@
+const sleep = (t) => new Promise((res) => setTimeout(res, t));
+
 class TodoService {
   constructor(httpClient) {
     this.httpClient = httpClient;
@@ -19,6 +21,10 @@ class TodoService {
   }
 
   updatePosition = async (id, newPosition) => {
+    await sleep(2000);
+    if (id === 52) {
+      throw new Error('Dupa dupa dupa');
+    }
     const { data } = await this.httpClient.patch(
       `/todo/position/${id}`,
       { newPosition },
