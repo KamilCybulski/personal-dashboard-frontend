@@ -28,6 +28,12 @@ export default {
 
       state.items = updatedItems;
     },
+
+    setAllItemsPositions(state, payload) {
+      payload.forEach(({ id }, index) => {
+        state.items[id].position = index;
+      });
+    },
   },
 
   actions: {
@@ -51,6 +57,15 @@ export default {
       const updatedTodo = await todoService.updateStatus(id, status);
       context.commit('setItems', updatedTodo);
       return updatedTodo;
+    },
+
+    async updatePosition(context, payload) {
+      const { id, newPosition } = payload;
+
+      // Sync server state
+      const allTodos = await todoService.updatePosition(id, newPosition);
+      context.commit('setItems', allTodos);
+      return allTodos;
     },
 
     async deleteTodo(context, payload) {

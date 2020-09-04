@@ -7,7 +7,6 @@ import { ACCESS_TOKEN_KEY } from '@/services';
 Vue.use(VueRouter);
 
 export const ROUTE_NAMES = {
-  main: 'Main',
   signin: 'Signin',
   signup: 'Signup',
   todos: 'Todos',
@@ -22,7 +21,6 @@ const routes = [
   },
   {
     path: '/main',
-    name: ROUTE_NAMES.main,
     component: () => import('@/views/Main.vue'),
     children: [
       {
@@ -74,7 +72,7 @@ router.beforeEach(async (to, from, next) => {
       : next({ name: ROUTE_NAMES.signin });
   }
 
-  return store.state.user.isAuthenticated ? next({ name: ROUTE_NAMES.main }) : next();
+  return store.state.user.isAuthenticated ? next({ name: ROUTE_NAMES.todos }) : next();
 });
 
 export default router;
