@@ -9,7 +9,7 @@
         <ui-textbox floatingLabel label="password" v-model="password" type="password" />
       </div>
       <div :class="$style.buttonWrapper">
-        <Button color="primary" buttonType="submit" size="large">{{ title }}</Button>
+        <Button fullWidth color="primary" buttonType="submit" size="large">{{ title }}</Button>
       </div>
     </form>
   </div>

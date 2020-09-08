@@ -3,6 +3,7 @@
     <div :class="$style.descriptionWrapper">
       <h3 :class="nameClasses">{{ name }}</h3>
       <div :class="notesClasses">{{ notes }}</div>
+      <div v-if="!!resolveAt" :class="resolveDateClasses">Deadline: {{ resolveDate }}</div>
     </div>
     <div :class="$style.buttonsWrapper">
       <ui-icon-button
@@ -39,6 +40,7 @@ export default {
     id: Number,
     name: String,
     notes: String,
+    resolveAt: String,
     status: {
       validator: oneOf(['done', 'inProgress']),
     },
@@ -66,6 +68,17 @@ export default {
         [this.$style.itemNotes]: true,
         [this.$style.itemDone]: this.localStatus === 'done',
       };
+    },
+
+    resolveDateClasses() {
+      return {
+        [this.$style.itemResolveDate]: true,
+        [this.$style.itemDone]: this.localStatus === 'done',
+      };
+    },
+
+    resolveDate() {
+      return this.resolveAt ? new Date(this.resolveAt).toLocaleDateString() : null;
     },
   },
 
@@ -128,6 +141,10 @@ export default {
 }
 
 .itemNotes {
+  font-size: 12px;
+}
+
+.itemResolveDate {
   font-size: 12px;
 }
 

@@ -1,20 +1,29 @@
 <template>
-  <form :class="$style.root" @submit.prevent="addTodo">
+  <form :class="$style.root" @keyup.enter="addTodo" @submit.prevent="noop">
     <h1>Create new item</h1>
     <div>
       <div :class="$style.inputWrapper">
-        <ui-textbox floatingLabel label="name" v-model="name" type="text" />
+        <ui-textbox floatingLabel label="Name" v-model="name" type="text" />
       </div>
       <div :class="$style.inputWrapper">
-        <ui-textbox floatingLabel label="notes" v-model="notes" type="text" />
+        <ui-textbox floatingLabel label="Notes" v-model="notes" type="text" />
+      </div>
+      <div :class="$style.inputWrapper">
+        <ui-datepicker
+          v-model='resolveAt'
+          floatingLabel
+          label="Deadline"
+          picker-type="modal"
+          id="DATEPICKER"
+        />
       </div>
     </div>
     <Button
       fullWidth
       color="primary"
-      buttonType="submit"
       size="large"
       :loading="loading"
+      @click="addTodo"
     >
       Save
     </Button>
@@ -30,6 +39,7 @@ export default {
     return {
       name: '',
       notes: '',
+      resolveAt: null,
       loading: false,
       error: null,
     };
@@ -38,7 +48,14 @@ export default {
     resetForm() {
       this.name = '';
       this.notes = '';
+      this.resolveAt = null;
     },
+
+    // KeenUI <ui-datepicker /> components add a number of button elements to the markup without
+    // explicitly setting their type. This causes form to be submitted on each date element click.
+    // In order to prevent that, we assign noop function as regular submit hadler and handle
+    // submit button clicks and enter keypresses manually
+    noop() {},
 
     async addTodo() {
       this.loading = true;
@@ -46,12 +63,18 @@ export default {
       try {
         const payload = {
           name: this.name,
-          notes: this.notes,
         };
 
+        if (this.notes) {
+          payload.notes = this.notes;
+        }
+
+        if (this.resolveAt) {
+          payload.resolveAt = this.resolveAt.toISOString();
+        }
+
         await this.$store.dispatch('todos/addTodo', payload);
-        this.name = '';
-        this.notes = '';
+        this.resetForm();
       } catch (err) {
         this.error = err;
       } finally {

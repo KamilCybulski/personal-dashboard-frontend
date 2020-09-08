@@ -24,7 +24,7 @@ export default {
   padding: 30px;
   display: grid;
   grid-template-columns: 500px 1fr;
-  grid-template-rows: 400px 1fr;
+  grid-template-rows: 460px 1fr;
   column-gap: 20px;
   row-gap: 20px;
   grid-template-areas:
