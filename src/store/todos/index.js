@@ -44,9 +44,7 @@ export default {
     },
 
     async addTodo(context, payload) {
-      const { name, notes } = payload;
-
-      const addedTodo = await todoService.addTodo(name, notes);
+      const addedTodo = await todoService.addTodo(payload);
       context.commit('setItems', addedTodo);
       return addedTodo;
     },

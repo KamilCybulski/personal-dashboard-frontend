@@ -1,5 +1,5 @@
 <template>
-  <ui-button v-bind="{ ...$attrs, ...filteredProps }">
+  <ui-button v-bind="{ ...$attrs, ...filteredProps }" v-on="$listeners">
     <slot />
   </ui-button>
 </template>

@@ -10,8 +10,8 @@ class TodoService {
     return data;
   };
 
-  addTodo = async (name, notes) => {
-    const { data } = await this.httpClient.post('/todo', { name, notes }, { requireAuth: true });
+  addTodo = async (todo) => {
+    const { data } = await this.httpClient.post('/todo', todo, { requireAuth: true });
     return data;
   }
 
